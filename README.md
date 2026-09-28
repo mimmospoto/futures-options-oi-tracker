@@ -1,5 +1,7 @@
 # Futures Options Open-Interest Tracker
 
+[![tests](https://github.com/mimmospoto/futures-options-oi-tracker/actions/workflows/tests.yml/badge.svg)](https://github.com/mimmospoto/futures-options-oi-tracker/actions/workflows/tests.yml)
+
 Track how **open interest** in futures options builds up strike by strike, day after day, and get it as an Excel report with charts.
 
 Open interest (OI) is the number of option contracts still open at each strike. Where it piles up, and how it moves over time, shows where traders are positioned. Large call or put OI can act as support or resistance, and it matters around expiry. Barchart shows only today's snapshot. This tool saves a snapshot each day, so you can see the changes over time.
