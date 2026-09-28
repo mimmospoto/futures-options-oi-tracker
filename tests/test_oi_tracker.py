@@ -74,6 +74,8 @@ def test_build_report_end_to_end(tmp_path):
     assert header == ["Date", 250, 260, 270, 280, 290, 300]
     assert [ws.cell(row=r, column=1).value for r in (6, 7)] == ["2026-09-24", "2026-09-25"]
     assert len(ws._charts) == 2
+    for chart in ws._charts:
+        assert chart.x_axis.delete is False and chart.y_axis.delete is False
 
     summary = summary_table(history).set_index("Contract")
     assert summary.loc["KCZ26", "OI change vs prev."] == 16 * 10

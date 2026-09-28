@@ -137,6 +137,9 @@ def _write_oi_table(ws, table: pd.DataFrame, option_type: str, row: int):
     chart.title = f"{option_type} open interest vs. strike"
     chart.y_axis.title = "Open interest"
     chart.x_axis.title = "Strike"
+    # openpyxl >= 3.1 marks axes as deleted by default, which hides their labels in Excel.
+    chart.x_axis.delete = False
+    chart.y_axis.delete = False
     first = max(header + 1, last - CHART_DATES + 1)
     data = Reference(ws, min_col=1, max_col=len(table.columns) + 1, min_row=first, max_row=last)
     chart.add_data(data, from_rows=True, titles_from_data=True)
