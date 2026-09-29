@@ -71,7 +71,7 @@ oi_tracker/
 └── cli.py       # command-line interface
 ```
 
-Barchart blocks plain HTTP clients. To get past that, the tool opens a headless Chrome session with Selenium and lets the site set its session cookies. It then calls Barchart's own JSON endpoint from inside the page with `fetch()`. This is far more robust than scraping the rendered HTML table, which is how the first version worked; you can find it in the git history.
+The tool uses a normal browser session (headless Chrome, driven by Selenium) and reads the same JSON data the page itself loads. This is more reliable than parsing the rendered HTML table.
 
 ## Tests
 
