@@ -1,9 +1,8 @@
 """Fetch futures and futures-options data from barchart.com.
 
-Barchart rejects plain HTTP clients, so we open a real (headless) Chrome
-session, let the site set its cookies, and then call Barchart's own JSON API
-from inside the page with ``fetch``. This is far more stable than scraping the
-rendered HTML table, whose CSS classes change frequently.
+Uses a normal browser session (headless Chrome, driven by Selenium) and reads
+the same JSON data the page itself loads. This is more reliable than parsing
+the rendered HTML table.
 """
 
 from __future__ import annotations
@@ -17,6 +16,8 @@ from selenium import webdriver
 
 BASE_URL = "https://www.barchart.com"
 API_PATH = "/proxies/core-api/v1/quotes/get"
+# Headless Chrome's default user agent (containing "HeadlessChrome") is refused
+# by the site, so headless runs present the regular desktop Chrome string.
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/140.0 Safari/537.36"
@@ -59,8 +60,8 @@ class BarchartClient:
         options = webdriver.ChromeOptions()
         if self.headless:
             options.add_argument("--headless=new")
+            options.add_argument(f"user-agent={USER_AGENT}")
         options.add_argument("--window-size=1400,900")
-        options.add_argument(f"user-agent={USER_AGENT}")
         # Selenium >= 4.6 downloads a matching chromedriver automatically.
         self._driver = webdriver.Chrome(options=options)
         self._driver.set_script_timeout(30)
